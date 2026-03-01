@@ -1,0 +1,4 @@
+PyQt6>=6.6.0
+semantic-version>=2.10.0
+tomli>=2.0.0
+nuitka>=2.0.0

@@ -1,0 +1,7 @@
+# Nuitka / Build outputs
+dist/
+
+# Python
+__pycache__/
+.venv/
+.env
