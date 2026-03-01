@@ -10,7 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
@@ -20,34 +21,34 @@ jobs:
       - name: Set up Python
         run: uv python install 3.12
 
-      - name: Install System Dependencies
+      - name: Install Linux GUI Libraries
         run: |
           sudo apt-get update
-          # xvfb is the "Virtual Display" needed to run GUI code on a server
+          # These are essential for PyQt6/Qt6 to initialize the 'xcb' platform
           sudo apt-get install -y \
             libegl1 libopengl0 libxcb-cursor0 libxkbcommon-x11-0 \
             libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-render-util0 \
             libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0 xvfb
-          
-          uv pip install --system pyqt6 nuitka
 
-      - name: Check Syntax (Dry Run)
+      - name: Install Python Dependencies
         run: |
-          # This checks if the code has errors without opening a window
-          uv run python -m py_compile main.py
+          # Create a virtual environment and install packages inside it
+          uv venv
+          uv pip install pyqt6 nuitka
 
-      - name: Build Executable (Nuitka)
+      - name: Build with Nuitka
         run: |
-          # Using Nuitka to build the Linux version to ensure it compiles
+          # Use 'uv run' to ensure we use the virtual environment created above
           uv run python -m nuitka \
             --standalone \
             --enable-plugin=pyqt6 \
             --include-qt-plugins=sensible \
             --output-dir=dist \
+            --remove-output \
             main.py
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: MC-JAR-Reader-Linux
-          path: dist/*.dist/
+          path: dist/main.dist/
