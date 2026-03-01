@@ -3,7 +3,7 @@ setlocal enabledelayedexpansion
 
 if not exist .venv (
     echo [.VENV] Creating virtual environment...
-    uv venv
+    uv -p 3.12 venv
 )
 
 echo [.VENV] Syncing dependencies...
