@@ -710,7 +710,7 @@ def read_jar_file(
                 candidates = candidates[:3]
 
                 cfr_path = os.path.join(os.path.dirname(__file__), "assets", "cfr.jar")
-                if os.path.exists(cfr_path) and shutil.which("java"):
+                if os.path.exists(cfr_path) and shutil.which("javaw"):
                     success = False
                     total_candidates = len(candidates)
                     for step_idx, class_path in enumerate(candidates):
@@ -736,7 +736,7 @@ def read_jar_file(
                             try:
                                 # Decompile
                                 result = subprocess.run(
-                                    ["java", "-jar", cfr_path, tmp_path],
+                                    ["javaw", "-jar", cfr_path, tmp_path],
                                     capture_output=True,
                                     text=True,
                                     check=False,

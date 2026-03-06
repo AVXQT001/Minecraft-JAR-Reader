@@ -1921,7 +1921,7 @@ class MainWindow(QMainWindow):
                         tmp_path = tmp.name
                     try:
                         result = subprocess.run(
-                            ["java", "-jar", cfr_path, tmp_path],
+                            ["javaw", "-jar", cfr_path, tmp_path],
                             capture_output=True,
                             text=True,
                             check=False,
